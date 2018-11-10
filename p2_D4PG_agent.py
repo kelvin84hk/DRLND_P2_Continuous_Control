@@ -10,7 +10,7 @@ import torch.nn.functional as F
 import torch.optim as optim
 
 device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
-Vmax = 40
+Vmax = 5
 Vmin = 0
 N_ATOMS = 51
 DELTA_Z = (Vmax - Vmin) / (N_ATOMS - 1)
@@ -18,7 +18,7 @@ DELTA_Z = (Vmax - Vmin) / (N_ATOMS - 1)
 class Agent():
     """Interacts with and learns from the environment."""
 
-    def __init__(self, state_size, action_size, seed,BUFFER_SIZE = int(1e5),BATCH_SIZE = 64,GAMMA = 0.99,TAU = 1e-3,LR_ACTOR = 1e-4,LR_CRITIC = 3e-4,WEIGHT_DECAY = 0.0001,UPDATE_EVERY = 4,IsPR=False,N_step=1,IsD4PG_Cat=False):
+    def __init__(self, state_size, action_size, seed,BUFFER_SIZE = int(1e5),BATCH_SIZE = 64,GAMMA = 0.99,TAU = 1e-3,LR_ACTOR = 1e-4,LR_CRITIC = 1e-4,WEIGHT_DECAY = 0.0001,UPDATE_EVERY = 4,IsPR=False,N_step=1,IsD4PG_Cat=False):
         """Initialize an Agent object.
         
         Params
