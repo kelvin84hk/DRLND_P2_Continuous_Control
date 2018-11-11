@@ -49,3 +49,15 @@ Linear Layer, Leaky Relu | N x 128
 Linear Layer + Actor Output, Leaky Relu | N x (128 + 4)
 Linear Layer, Leaky Relu | N x 128
 Linear Layer | N x 51
+
+## Training Results
+
+Below are the number of episodes needed to solve the environment and the evolution of rewards per episode during training.
+
+# Ideas for future work
+
+1. Implementing Mixture of Gaussians for action-value distribution described in original D4PG paper [https://arxiv.org/pdf/1804.08617.pdf]
+
+2. Implementing Rainbow Algorithm [https://arxiv.org/pdf/1710.02298.pdf] which combines good features from different algorithms to form an itegrated agent.
+
+3. Implementing parallel computing so that it is able to use multiple agents to train simultaneously. 
