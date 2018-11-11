@@ -54,6 +54,10 @@ Linear Layer | N x 51
 
 Below are the number of episodes needed to solve the environment and the evolution of rewards per episode during training.
 
+![alt text](https://github.com/kelvin84hk/DRLND_P2_Continuous_Control/blob/master/pics/d4pg_results.png)
+
+Environment was solved in 3327 episodes with Average Score 30.05.
+
 # Ideas for future work
 
 1. Implementing Mixture of Gaussians for action-value distribution described in original D4PG paper [https://arxiv.org/pdf/1804.08617.pdf]
