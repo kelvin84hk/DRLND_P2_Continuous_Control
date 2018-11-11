@@ -12,7 +12,7 @@ def hidden_init(layer):
 class Actor(nn.Module):
     """Actor (Policy) Model."""
 
-    def __init__(self, state_size, action_size, seed,fc1_units=1024,fc2_units=1024): 
+    def __init__(self, state_size, action_size, seed,fc1_units=256,fc2_units=256): 
         """Initialize parameters and build model.
         Params
         ======
@@ -23,33 +23,20 @@ class Actor(nn.Module):
         super(Actor, self).__init__()  
         self.seed = torch.manual_seed(seed)    
         self.fc1=nn.Linear(state_size,fc1_units)
-        #self.b1=nn.BatchNorm1d(fc1_units)
         self.fc2=nn.Linear(fc1_units,action_size)
         self.b2=nn.BatchNorm1d(action_size) 
-        #self.fc3=nn.Linear(fc2_units,action_size)
-        #self.b3=nn.BatchNorm1d(action_size)
-        #self.fc4=nn.Linear(fc3_units,action_size)
-        #self.tanh1=nn.Tanh()
-        #self.tanh2=nn.Tanh()
-        #self.tanh3=nn.Tanh()
         self.tanh=nn.Tanh()
         self.reset_parameters()
 
     def reset_parameters(self):
         self.fc1.weight.data.uniform_(*hidden_init(self.fc1))
         self.fc2.weight.data.uniform_(-3e-3, 3e-3)
-        #self.fc3.weight.data.uniform_(-3e-3, 3e-3)
 
     def forward(self, state):
         
         x=F.leaky_relu(self.fc1(state))
-        #x=self.b1(x)
         x=F.leaky_relu(self.fc2(x))
         x=self.b2(x)
-        #x=F.relu(self.fc2(x))
-        #x=self.b2(x)
-        #x=F.leaky_relu(self.fc3(x))
-        #x=self.b3(x)
         x=self.tanh(x)
                 
         return x        
@@ -57,7 +44,7 @@ class Actor(nn.Module):
 class CriticD4PG(nn.Module):
     """Critic (distribution) Model."""
 
-    def __init__(self, state_size, action_size, seed,fc1_units=512,fc2_units=512,fc3_units=512,fc4_units=512,n_atoms=51, v_min=-1, v_max=1): 
+    def __init__(self, state_size, action_size, seed,fc1_units=128,fc2_units=128,fc3_units=128,fc4_units=128,n_atoms=51, v_min=-1, v_max=1): 
         """Initialize parameters and build model.
         Params
         ======
@@ -68,14 +55,8 @@ class CriticD4PG(nn.Module):
         super(CriticD4PG, self).__init__()  
         self.seed = torch.manual_seed(seed)    
         self.fc1=nn.Linear(state_size,fc1_units)
-        #self.b1=nn.BatchNorm1d(fc1_units)
-        #self.fc2=nn.Linear(fc1_units,fc2_units)
-        #self.b2=nn.BatchNorm1d(fc2_units)
         self.fc2=nn.Linear(fc2_units+action_size,fc3_units)
-        #self.b2=nn.BatchNorm1d(fc3_units)
         self.fc3=nn.Linear(fc3_units,n_atoms)
-        self.b3=nn.BatchNorm1d(n_atoms)
-        #self.fc5=nn.Linear(fc4_units,n_atoms)
         delta = (v_max - v_min) / (n_atoms - 1)
         self.register_buffer("supports", torch.arange(v_min, v_max+delta , delta))
         self.reset_parameters()
@@ -84,21 +65,14 @@ class CriticD4PG(nn.Module):
         self.fc1.weight.data.uniform_(*hidden_init(self.fc1))
         self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
         self.fc3.weight.data.uniform_(*hidden_init(self.fc3))
-        #self.fc4.weight.data.uniform_(-3e-3, 3e-3)
 
     def forward(self, state,action):
         
         xs=F.leaky_relu(self.fc1(state))
-        #xs=self.b1(xs)
-        #xs=F.relu(self.fc2(xs))
-        #xs=self.b2(xs)
         x = torch.cat((xs, action), dim=1)
         x=F.leaky_relu(self.fc2(x))
-        #x=self.b2(x)
         x=self.fc3(x)
-        #x=self.b3(x)
-        #x=self.fc5(x)
-
+        
         return x
 
     def distr_to_q(self, distr):
@@ -121,12 +95,10 @@ class Critic(nn.Module):
         super(Critic, self).__init__()  
         self.seed = torch.manual_seed(seed)    
         self.fc1=nn.Linear(state_size,fc1_units)
-        self.b1=nn.BatchNorm1d(fc1_units)
         self.fc2=nn.Linear(fc2_units+action_size,fc2_units)
-        self.b2=nn.BatchNorm1d(fc3_units)
         self.fc3=nn.Linear(fc3_units,fc4_units)
         self.fc4=nn.Linear(fc4_units,1)
-        #self.fc5=nn.Linear(fc4_units,1)
+  
     def reset_parameters(self):
         self.fc1.weight.data.uniform_(*hidden_init(self.fc1))
         self.fc2.weight.data.uniform_(*hidden_init(self.fc2))
@@ -136,12 +108,8 @@ class Critic(nn.Module):
     def forward(self, state,action):
         
         xs=F.leaky_relu(self.fc1(state))
-        #xs=self.b1(xs)
-        #xs=F.relu(self.fc2(xs))
-        #xs=self.b2(xs)
         x = torch.cat((xs, action), dim=1)
         x=F.leaky_relu(self.fc2(x))
-        #x=self.b3(x)
         x=F.leaky_relu(self.fc3(x))
         x=self.fc4(x)
 

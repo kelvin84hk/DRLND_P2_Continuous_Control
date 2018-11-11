@@ -135,7 +135,6 @@ class Agent():
                     try:
                         states = np.vstack([m for m in mini_batch[0] if m is not None])
                     except:
-                        #print([m.shape for m in mini_batch[0] if m is not None])
                         print('states not same dim')
                         pass
                     try:    
@@ -156,9 +155,6 @@ class Agent():
                     try:
                         dones = np.vstack([m for m in mini_batch[4] if m is not None])
                     except:
-                        print(mini_batch.shape)
-                        print(mini_batch[4].shape)
-                        print([m for m in mini_batch[4] if m is not None])
                         print('dones not same dim')
                         pass
                     # bool to binary
@@ -209,8 +205,8 @@ class Agent():
         self.actor_local.train()
         if add_noise:
             action += self.noise.sample()
-        return np.squeeze(np.clip(action,0.0,1.0))
-
+        return np.squeeze(np.clip(action,-1.0,1.0))
+    # borrow from https://github.com/PacktPublishing/Deep-Reinforcement-Learning-Hands-On/tree/master/Chapter14    
     def distr_projection(self,next_distr_v, rewards_v, dones_mask_t, gamma):
         next_distr = next_distr_v.data.cpu().numpy()
         rewards = rewards_v.data.cpu().numpy()
