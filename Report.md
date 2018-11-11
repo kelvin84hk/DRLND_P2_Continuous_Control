@@ -4,7 +4,7 @@ The goal of this project is to train an agent deep reinforcement learning algori
 
 # Implemention
 
-Distributed Distributional Deterministic Policy Gradients (D4PG) have been implemented.
+Distributed Distributional Deterministic Policy Gradients (D4PG) has been implemented.
 
 ## Distributed Distributional Deterministic Policy Gradients (D4PG)
 
@@ -12,7 +12,7 @@ Distributed Distributional Deterministic Policy Gradients (D4PG) have been imple
 
 ## Hyperparamters
 
-After exploring several combinations, values below for hyperparameters allows the agent to solve the problem in stable manner.
+After exploring several combinations, values below for hyperparameters allow the agent to solve the problem in stable manner.
 
 Hyperparameter | Value
 --- | ---    
