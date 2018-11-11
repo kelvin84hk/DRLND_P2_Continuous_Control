@@ -57,7 +57,7 @@ To set up your Python environment to run the code in this repository, follow the
      
 ## Run the code 
 
-  Open Navigation.ipynb in Jupyter and press Ctrl+Enter to run the first cell to import all the libraries.
+  Open Continuous_Control.ipynb in Jupyter and press Ctrl+Enter to run the first cell to import all the libraries.
   
   ### Watch a random agent
    Run 2nd cell  to 6th cell to watch how a random agent plays.
