@@ -28,4 +28,24 @@ Vmax | 5
 Vmin | 0
 N_ATOMS | 51
 
+## Network Structures
 
+### Actor
+
+Layer | Dimension
+--- | ---
+Input | N x 33
+Linear Layer, Leaky Relu | N x 256
+Linear Layer, Leaky Relu | N x 4
+Batchnormalization1D | N x 4
+Tanh Output | N x 4
+
+### Critic
+
+Layer | Dimension
+--- | ---
+Input | N x 33
+Linear Layer, Leaky Relu | N x 128
+Linear Layer + Actor Output, Leaky Relu | N x (128 + 4)
+Linear Layer, Leaky Relu | N x 128
+Linear Layer | N x 51
